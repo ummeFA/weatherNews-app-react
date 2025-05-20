@@ -1,8 +1,8 @@
 import React from "react";
-import WeatherCard from "./pages/WeatherCard";
+import WeatherPage from "./pages/WeatherPage";
 
 const App = () => {
-  return <WeatherCard />;
+  return <WeatherPage />;
 };
 
 export default App;
