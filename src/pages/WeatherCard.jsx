@@ -10,19 +10,11 @@ import {
   Button,
   CircularProgress,
 } from "@mui/material";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  Tooltip,
-  CartesianGrid,
-  ResponsiveContainer,
-} from "recharts";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { addDays } from "date-fns";
+import { LineChart } from "@mui/x-charts/LineChart";
 
 const WeatherCard = () => {
   const [city, setCity] = useState(cities[0]);
@@ -35,7 +27,7 @@ const WeatherCard = () => {
 
   useEffect(() => {
     if (!city || !selectedDate) return;
-    setCurrentTemp(null); // Show loader
+    setCurrentTemp(null);
 
     const fetchWeather = async () => {
       const { lat, lon } = city;
@@ -45,13 +37,8 @@ const WeatherCard = () => {
         const res = await fetch(url);
         const data = await res.json();
 
-        // Format selectedDate to match API datetime: "YYYY-MM-DDTHH:mm"
-        const selectedISOString = selectedDate.toISOString().slice(0, 13); // e.g., "2025-05-20T14"
-
-        // Find index in data.hourly.time[] matching selected hour
-        const index = data.hourly.time.findIndex((t) =>
-          t.startsWith(selectedISOString)
-        );
+        const selectedISO = selectedDate.toISOString().slice(0, 13); // e.g., 2025-05-20T14
+        const index = data.hourly.time.findIndex((t) => t.startsWith(selectedISO));
 
         if (index !== -1) {
           const temp = data.hourly.temperature_2m[index];
@@ -73,23 +60,18 @@ const WeatherCard = () => {
           setCondition("N/A");
         }
 
-        // Chart preview
-        // Build chart for next 24 hours from selected date
-        const selectedISODate = selectedDate.toISOString().slice(0, 13); // "YYYY-MM-DDTHH"
-        const startIndex = data.hourly.time.findIndex((t) =>
-          t.startsWith(selectedISODate)
-        );
-
+        // Chart data: next 24 hours
+        const startIndex = data.hourly.time.findIndex((t) => t.startsWith(selectedISO));
         if (startIndex !== -1) {
-          const chartSlice = data.hourly.time
+          const next24 = data.hourly.time
             .slice(startIndex, startIndex + 24)
             .map((t, i) => ({
-              time: t.slice(11, 16), // show "HH:mm"
+              time: t.slice(11, 16),
               temp: data.hourly.temperature_2m[startIndex + i],
             }));
-          setChartData(chartSlice);
+          setChartData(next24);
         } else {
-          setChartData([]); // fallback if no match found
+          setChartData([]);
         }
       } catch (error) {
         console.error("Weather API error:", error);
@@ -164,7 +146,6 @@ const WeatherCard = () => {
               flexDirection={{ xs: "column", md: "row" }}
               gap={2}
             >
-              {/* Left */}
               <Box
                 display="flex"
                 justifyContent="center"
@@ -178,7 +159,6 @@ const WeatherCard = () => {
                 <Typography color="text.secondary">{time}</Typography>
               </Box>
 
-              {/* Right */}
               <Box display="flex" justifyContent="center" alignItems="center">
                 <Typography variant="h4">{condition}</Typography>
               </Box>
@@ -191,22 +171,23 @@ const WeatherCard = () => {
           <Card sx={{ width: "100%" }}>
             <CardContent>
               <Typography variant="h6" gutterBottom>
-                Temperature Forecast (next 24 hours)
+                Temperature Forecast (Next 24 Hours)
               </Typography>
-              <ResponsiveContainer width="100%" height={300}>
-                <LineChart data={chartData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="time" />
-                  <YAxis unit="°C" />
-                  <Tooltip />
-                  <Line
-                    type="monotone"
-                    dataKey="temp"
-                    stroke="#1976d2"
-                    strokeWidth={2}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
+              <Box width="100%" overflow="auto">
+                <LineChart
+                  xAxis={[{ scaleType: "point", data: chartData.map((d) => d.time) }]}
+                  series={[
+                    {
+                      data: chartData.map((d) => d.temp),
+                      label: "Temperature (°C)",
+                      area: true,
+                      areaOpacity: 0.1,
+                    },
+                  ]}
+                  width={800}
+                  height={300}
+                />
+              </Box>
             </CardContent>
           </Card>
         )}
