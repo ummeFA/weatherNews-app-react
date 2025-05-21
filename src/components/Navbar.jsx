@@ -9,6 +9,10 @@ import {
 import { cities } from "../data/cities";
 
 const Navbar = ({ city, setCity }) => {
+  const handleLogoClick = () => {
+    window.location.reload(); // Refresh the page
+  };
+
   return (
     <Box
       sx={{
@@ -18,13 +22,27 @@ const Navbar = ({ city, setCity }) => {
         alignItems: "center",
         p: 2,
         color: "white",
-        // boxShadow: 1,
       }}
     >
-      {/* Website Logo */}
-      <Typography variant="h5" sx={{ fontWeight: "bold" }}>
-        WeatherApp
-      </Typography>
+      {/* Clickable Logo Section */}
+      <Box
+        onClick={handleLogoClick}
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          gap: 1,
+          cursor: "pointer", // Pointer on hover
+        }}
+      >
+        <img
+          src="/src/images/cloud.png"
+          alt="Weather Logo"
+          style={{ height: 40, width: 40, objectFit: "contain" }}
+        />
+        <Typography variant="h5" sx={{ fontWeight: "bold" }}>
+          Weather News
+        </Typography>
+      </Box>
 
       {/* City Search Dropdown */}
       <Autocomplete
@@ -40,17 +58,11 @@ const Navbar = ({ city, setCity }) => {
             sx={{
               borderRadius: 1,
               minWidth: 200,
-              input: { color: "white" }, // white input text
+              input: { color: "white" },
               "& .MuiOutlinedInput-root": {
-                "& fieldset": {
-                  borderColor: "white", // white border
-                },
-                "&:hover fieldset": {
-                  borderColor: "white",
-                },
-                "&.Mui-focused fieldset": {
-                  borderColor: "white",
-                },
+                "& fieldset": { borderColor: "white" },
+                "&:hover fieldset": { borderColor: "white" },
+                "&.Mui-focused fieldset": { borderColor: "white" },
               },
               "& .MuiInputLabel-root": {
                 color: "white",
@@ -60,36 +72,26 @@ const Navbar = ({ city, setCity }) => {
         )}
         sx={{
           width: 250,
-          "& .MuiAutocomplete-popupIndicator": {
-            color: "white", // white dropdown icon
-          },
-          "& .MuiAutocomplete-clearIndicator": {
-            color: "white", // white clear (X) icon
-          },
+          "& .MuiAutocomplete-popupIndicator": { color: "white" },
+          "& .MuiAutocomplete-clearIndicator": { color: "white" },
         }}
         PopperComponent={(props) => (
           <Popper
             {...props}
-            modifiers={[
-              {
-                name: "offset",
-                options: {
-                  offset: [0, 6],
-                },
-              },
-            ]}
+            modifiers={[{ name: "offset", options: { offset: [0, 6] } }]}
             sx={{
               "& .MuiAutocomplete-paper": {
-                backgroundColor: "#456789", // Match your navbar background
+                backgroundColor: "#132238",
                 color: "white",
               },
               "& .MuiAutocomplete-option": {
                 color: "white",
                 "&[aria-selected='true']": {
-                  backgroundColor: "#345678", // selected color
+                  backgroundColor: "#132238",
                 },
                 "&:hover": {
-                  backgroundColor: "#345678", // hover color
+                  border: "2px solid white",
+                  borderRadius: 1,
                 },
               },
             }}
