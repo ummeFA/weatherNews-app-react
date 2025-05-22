@@ -18,10 +18,13 @@ const Navbar = ({ city, setCity }) => {
       sx={{
         width: "100%",
         display: "flex",
-        justifyContent: "space-between",
+        flexDirection: { xs: "column", sm: "row" },
+        justifyContent: { xs: "center", sm: "space-between" },
         alignItems: "center",
         p: 2,
         color: "white",
+        gap: { xs: 2, sm: 0 },
+        textAlign: { xs: "center", sm: "left" },
       }}
     >
       {/* Clickable Logo Section */}
@@ -31,7 +34,8 @@ const Navbar = ({ city, setCity }) => {
           display: "flex",
           alignItems: "center",
           gap: 1,
-          cursor: "pointer", // Pointer on hover
+          cursor: "pointer",
+          justifyContent: { xs: "center", sm: "flex-start" },
         }}
       >
         <img
@@ -71,32 +75,10 @@ const Navbar = ({ city, setCity }) => {
           />
         )}
         sx={{
-          width: 250,
+          width: { xs: 180, sm: 250, md: 300 },
           "& .MuiAutocomplete-popupIndicator": { color: "white" },
           "& .MuiAutocomplete-clearIndicator": { color: "white" },
         }}
-        PopperComponent={(props) => (
-          <Popper
-            {...props}
-            modifiers={[{ name: "offset", options: { offset: [0, 6] } }]}
-            sx={{
-              "& .MuiAutocomplete-paper": {
-                backgroundColor: "#132238",
-                color: "white",
-              },
-              "& .MuiAutocomplete-option": {
-                color: "white",
-                "&[aria-selected='true']": {
-                  backgroundColor: "#132238",
-                },
-                "&:hover": {
-                  border: "2px solid white",
-                  borderRadius: 1,
-                },
-              },
-            }}
-          />
-        )}
       />
     </Box>
   );

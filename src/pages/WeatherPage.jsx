@@ -19,7 +19,7 @@ const WeatherPage = () => {
       if (!city) return;
 
       const { lat, lon } = city;
-      const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,temperature_2m_min,weathercode&hourly=temperature_2m,precipitation,relative_humidity_2m&timezone=GMT`;
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,temperature_2m_min,weathercode&hourly=temperature_2m,precipitation,visibility,relative_humidity_2m&timezone=GMT`;
 
       try {
         const res = await fetch(url);
@@ -35,6 +35,7 @@ const WeatherPage = () => {
             temp: data.hourly.temperature_2m[i],
             precipitation: data.hourly.precipitation[i],
             humidity: data.hourly.relative_humidity_2m[i],
+            visibility: data.hourly.visibility[i], // ✅ Added this line
           });
         });
         setHourlyData(grouped);
@@ -49,6 +50,13 @@ const WeatherPage = () => {
             0
           );
 
+          // ✅ Fixed visibility calculation
+          const avgVisibility =
+            entries.length > 0
+              ? entries.reduce((sum, d) => sum + (d.visibility || 0), 0) /
+                entries.length
+              : 0;
+
           return {
             date,
             tempMax: data.daily.temperature_2m_max[i],
@@ -56,6 +64,7 @@ const WeatherPage = () => {
             weatherCode: data.daily.weathercode[i],
             humidity: Math.round(avgHumidity),
             precipitation: totalPrecip.toFixed(1),
+            visibility: Math.round(avgVisibility), // ✅ Simplified and fixed
           };
         });
 
@@ -79,27 +88,33 @@ const WeatherPage = () => {
     setChartData(hourlyData[date] || []);
   };
 
-  // background: "linear-gradient(to bottom right, #152238, #364154)",
   return (
     <Box
       sx={{
         bgcolor: "#152238",
         minHeight: "100vh",
         width: "100%",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
         background: "linear-gradient(to bottom right, #152238, #364154)",
         color: "white",
+        px: 2, // padding for small devices
       }}
     >
       {loading ? (
-        <CircularProgress sx={{ color: "white" }} size={60} thickness={5} />
-      ) : (
         <Box
+          sx={{
+            height: "100vh",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <CircularProgress sx={{ color: "white" }} size={60} thickness={5} />
+        </Box>
+      ) : (
+        <Container
           maxWidth="lg"
           sx={{
-            py: 4,
+            py: { xs: 4, sm: 6 },
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -107,7 +122,12 @@ const WeatherPage = () => {
           }}
         >
           <Navbar city={city} setCity={setCity} />
-          <Typography variant="h4" mt={4}>
+          <Typography
+            variant="h4"
+            mt={2}
+            textAlign="center"
+            fontSize={{ xs: "1.5rem", sm: "2rem", md: "2.5rem" }}
+          >
             {city.name} - 7 Day Forecast
           </Typography>
           <WeatherCarousel
@@ -116,10 +136,10 @@ const WeatherPage = () => {
             onCardClick={handleCardClick}
           />
           <ChartData chartData={chartData} selectedDate={selectedDate} />
-        </Box>
+        </Container>
       )}
     </Box>
   );
 };
-//
+
 export default WeatherPage;
