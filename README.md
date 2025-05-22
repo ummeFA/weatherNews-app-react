@@ -2,6 +2,7 @@
 This is a simple responsive weather forecast application built using React and Material UI (MUI). The app displays a 7-day forecast for 50 major cities worldwide.
 
 ※ Features:
+
 ✔ Responsive UI using MUI components and styling
 
 ✔ Searchable city list with autocomplete dropdown
@@ -39,6 +40,7 @@ Condition (Sunny, Cloudy, Rainy)
 ✔ Scrollable carousel layout for weather cards
 
 🔧 Tech Stack:
+
 ✔ React (Vite setup)
 
 ✔ Material UI (MUI v5)
@@ -47,5 +49,6 @@ Condition (Sunny, Cloudy, Rainy)
 
 ✔ Responsive layout using MUI breakpoints and system props
 
-
+====================================================================
 🔗 The Live link : https://weather-news-app-react.vercel.app/
+====================================================================
