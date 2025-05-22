@@ -9,9 +9,9 @@ const getCondition = (code) => {
 };
 
 const getWeatherIcon = (code) => {
-  if (code === 0) return "../../public/images/sunny.png";
-  if (code < 50) return "../../public/images/cloudy.png";
-  return "../../public/images/rain.png";
+  if (code === 0) return "/images/sunny.png";
+  if (code < 50) return "/images/cloudy.png";
+  return "/images/rain.png";
 };
 
 const getDisplayDate = (dateStr) => {
