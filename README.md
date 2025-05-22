@@ -13,7 +13,7 @@ This is a simple responsive weather forecast application built using React and M
 
 ✔ Weather cards show each day's:
 
-    Condition (Sunny, Cloudy, Rainy)
+  • Condition (Sunny, Cloudy, Rainy)
 
 ✔ Min/Max temperature
 
@@ -27,15 +27,15 @@ This is a simple responsive weather forecast application built using React and M
 
 ✔ Modal includes a responsive “Close” button positioned:
 
-  Bottom-right on desktop
+  • Bottom-right on desktop
 
-  Bottom-center on mobile
+  • Bottom-center on mobile
 
 ✔ Fully styled with:
 
-    Gradients
+  • Gradients
 
-    Hover effects
+  • Hover effects
 
 ✔ Scrollable carousel layout for weather cards
 
