@@ -13,7 +13,7 @@ This is a simple responsive weather forecast application built using React and M
 
 ✔ Weather cards show each day's:
 
-Condition (Sunny, Cloudy, Rainy)
+    Condition (Sunny, Cloudy, Rainy)
 
 ✔ Min/Max temperature
 
@@ -33,9 +33,9 @@ Condition (Sunny, Cloudy, Rainy)
 
 ✔ Fully styled with:
 
-  Gradients
+    Gradients
 
-  Hover effects
+    Hover effects
 
 ✔ Scrollable carousel layout for weather cards
 
@@ -49,6 +49,6 @@ Condition (Sunny, Cloudy, Rainy)
 
 ✔ Responsive layout using MUI breakpoints and system props
 
-====================================================================
+
 🔗 The Live link : https://weather-news-app-react.vercel.app/
-====================================================================
+
