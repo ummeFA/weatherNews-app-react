@@ -35,7 +35,7 @@ const Navbar = ({ city, setCity }) => {
         }}
       >
         <img
-          src="/src/images/cloud.png"
+          src="../../public/images/cloud.png"
           alt="Weather Logo"
           style={{ height: 40, width: 40, objectFit: "contain" }}
         />
